@@ -1,5 +1,6 @@
 from nn import nn
 from nn import preprocess
+import numpy as np
 
 def test_single_forward():
     NN = nn.NeuralNetwork([{'input_dim': 2, 'output_dim': 32, 'activation': 'relu'}], lr=0.01, seed=42, batch_size=1, epochs=1, loss_function='mean_squared_error', patience = 1, progress = 1)
