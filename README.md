@@ -1,114 +1,58 @@
-# Final project: neural network
+![BuildStatus](https://github.com/zyj1729/final-nn/actions/workflows/main.yml/badge.svg?event=push)
+# Neural Network Implementations
 
-## Overview
+This repository contains the implementation of a fully-connected Neural Network class and its applications in two distinct examples: an autoencoder for dimensionality reduction on the digits dataset and a classifier for transcription factor binding sites.
 
-In this assignment, you will implement a neural network class from (almost) scratch. You will then apply your class to create both:
+## NeuralNetwork Class
 
-**(1) a simple 64x16x64 autoencoder.**
+The `NeuralNetwork` class is a customizable Python class designed for building and training fully-connected neural networks. The class supports various functionalities including forward pass, backpropagation, parameter updates, and training with early stopping.
 
-**(2) a classifier for transcription factor binding sites.**
+### Key Features:
 
-You will begin by finishing the API for generating fully connected neural networks from scratch. You will then make Jupyter Notebooks where you create, train, and test your autoencoder and classifier.
+- Customizable architecture: Users can define the network architecture including the number of layers, units per layer, and activation functions.
+- Loss functions: Supports mean squared error and binary cross entropy loss functions.
+- Early stopping: To prevent overfitting, early stopping is implemented based on validation loss.
 
-## Step 1: finish the neural network API
 
-### For steps 2 and 3
+## Examples
 
-* Finish all methods with a `pass` statement in the `NeuralNetwork` class in the `nn.py` file.
+### Running the Examples
 
-### For step 3
+For the autoencoder and the transcription factor binding site classifier, open and run the cells in `Autoencoder and Classifier.ipynb`.
 
-* Finish the `sample_seqs` function in the `preprocess.py` file.
-* Finish the `one_hot_encode_seqs` function in the `preprocess.py` file.
 
-## Step 2: make your autoencoder
+Make sure to adjust the hyperparameters according to your needs and computational resources.
 
-### Background
 
-An autoencoder is a neural network that takes an input, encodes it into a lower-dimensional latent space through "encoding" layers, and then attempts to reconstruct the original input using "decoding" layers. Autoencoders are often used for dimensionality reduction.
+### 1. Autoencoder for Dimensionality Reduction
 
-### Your task
+#### Background
 
-You will train a 64x16x64 autoencoder on the [digits](https://scikit-learn.org/stable/datasets/toy_dataset.html#digits-dataset) dataset. All of the following work should be done in a Jupyter Notebook.
+An autoencoder is a type of neural network used to learn efficient codings of unlabeled data. The network consists of two main parts: an encoder that reduces the input data into a smaller, dense representation, and a decoder that reconstructs the input data from this dense representation.
 
-### To-do
+#### Task
 
-* Load the digits dataset through sklearn using <code><a href="https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_digits.html">sklearn.datasets.load_digits()</a></code>.
-* Split the data into training and validation sets.
-* Generate an instance of your `NeuralNetwork` class with a 64x16x64 autoencoder architecture.
-* Train your autoencoder on the training data.
-* Plot your training and validation loss by epoch.
-* Quantify your average reconstruction error over the validation set.
-* Explain why you chose the hyperparameter values you did.
+The task is to train a `64x16x64` autoencoder on the digits dataset from `sklearn.datasets`. The autoencoder first compresses a 64-dimensional input (8x8 image of a digit) to a 16-dimensional latent space and then reconstructs the original input from this compressed form.
 
-## Step 3: make your classifier
+#### Implementation
 
-### Background
+The digits dataset is loaded and split into training and validation sets. The `NeuralNetwork` class is then used to define and train the autoencoder. The training process is monitored by plotting the training and validation losses, and the performance of the autoencoder is evaluated by calculating the average reconstruction error over the validation set.
 
-Transcription factors are proteins that bind DNA at promoters to drive gene expression. Most preferentially bind to specific sequences while ignoring others. Traditional methods to determine these sequences (called motifs) have assumed that binding sites in the genome are all independent. However, in some cases people have identified motifs where positional interdependencies exist.
+### 2. Classifier for Transcription Factor Binding Sites
 
-### Your task
+#### Background
 
-You will implement a multi-layer fully connected neural network using your `NeuralNetwork` class to predict whether a short DNA sequence is a binding site for the yeast transcription factor Rap1. The training data is incredibly imbalanced, with way fewer positive sequences than negative sequences, so you will implement a sampling scheme to ensure that class imbalance does not affect training. As in step 2, all of the following work should be done in a Jupyter Notebook.
+Transcription factors are proteins that bind to specific DNA sequences to control the flow of genetic information from DNA to mRNA. Identifying these binding sites (motifs) is crucial for understanding gene regulation.
 
-### To-do
+#### Task
 
-* Use the `read_text_file` function from `io.py` to read in the 137 positive Rap1 motif examples.
-* Use the `read_fasta_file` function from `io.py` to read in all the negative examples. Note that these sequences are much longer than the positive sequences, so you will need to process them to the same length.
-* Balance your classes using your `sample_seq` function and explain why you chose the sampling scheme you did.
-* One-hot encode the data using your `one_hot_encode_seqs` function.
-* Split the data into training and validation sets.
-* Generate an instance of your `NeuralNetwork` class with an appropriate architecture.
-* Train your neural network on the training data.
-* Plot your training and validation loss by epoch.
-* Report the accuracy of your classifier on your validation dataset.
-* Explain your choice of loss function and hyperparameters.
+The task is to implement a multi-layer fully connected neural network to predict whether a short DNA sequence is a binding site for the yeast transcription factor Rap1. The training data is imbalanced, with significantly fewer positive (binding) sequences compared to negative (non-binding) sequences. A sampling scheme is implemented to ensure balanced training.
 
-## Grading (50 points)
+#### Implementation
 
-### Neural network implementation (15 points)
+Positive Rap1 motif examples and negative examples are read from provided files, and the negative examples are processed to match the length of positive examples. The `sample_seqs` function is used to balance the classes, and the `one_hot_encode_seqs` function is used to convert DNA sequences to a numerical format suitable for the neural network. The `NeuralNetwork` class is then used to define, train, and evaluate the classifier. The model's performance is assessed based on accuracy over a validation set.
 
-* Proper implementation of methods in `NeuralNetwork` class (13 points)
-* Proper implementation of `sample_seqs` function (1 point)
-* Proper implementation of `one_hot_encode_seqs` function (1 point)
+## Usage
 
-### Autoencoder (10 points)
+To use the `NeuralNetwork` class or run the example implementations, clone this repository and open the respective Jupyter Notebooks. Make sure you have the required dependencies installed, including `numpy`, `matplotlib` (for plotting), and `sklearn` (for the digits dataset).
 
-* Read in data and generate training and validation sets (2 points)
-* Successfully train your autoencoder (4 points)
-* Plots of training and validation loss (2 points)
-* Quantification of reconstruction error (1 point)
-* Explanation of hyperparameters (1 point)
-
-### Classifier (15 points)
-
-* Correctly read in all data (2 points)
-* Explanation of your sampling scheme (2 points)
-* Proper generation of a training set and a validation set (2 point)
-* Successfully train your classifier (4 points)
-* Plots of training and validation loss (2 points)
-* Reporting validation accuracy of the classifier (1 point)
-* Explanation of loss function and hyperparameters (2 points)
-
-### Testing (7 points)
-
-Proper unit tests for:
-
-* `_single_forward` method (1 point)
-* `forward` method (1 point)
-* `_single_backprop` method (1 point)
-* `predict` method (1 point)
-* `binary_cross_entropy` method (0.5 points)
-* `binary_cross_entropy_backprop` method (0.5 points)
-* `mean_squared_error` method (0.5 points)
-* `mean_squared_error_backprop` method (0.5 points)
-* `sample_seqs` function (0.5 points)
-* `one_hot_encode_seqs` function (0.5 points)
-
-### Packaging (3 points)
-
-* Installable module (1 point)
-* GitHub Actions (installing + testing) (2 points)
-
-### Submission
-Please submit a link to your final project repo [here](https://forms.gle/9xWdSinubVTYTwL2A)
